@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 340px;
+      padding: 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #e94560;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding: 12px;
+      background: #16213e;
+      border-radius: 8px;
+    }
+    .toggle-label { font-size: 13px; }
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #333;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    input:checked + .slider { background: #e94560; }
+    input:checked + .slider:before { transform: translateX(20px); }
+
+    .input-group { margin-bottom: 12px; }
+    label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #aaa;
+    }
+    textarea {
+      width: 100%;
+      height: 130px;
+      padding: 10px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      background: #16213e;
+      color: #fff;
+      font-size: 13px;
+      resize: vertical;
+      font-family: monospace;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #e94560;
+    }
+    .hint {
+      font-size: 11px;
+      color: #666;
+      margin-top: 4px;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #e94560;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #c73e54; }
+    .btn-secondary {
+      background: #0f3460;
+      margin-top: 8px;
+    }
+    .btn-secondary:hover { background: #1a4a7a; }
+    .status {
+      margin-top: 12px;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+    .status.success {
+      background: #1e3a2f;
+      color: #4ade80;
+      display: block;
+    }
+    .status.error {
+      background: #3a1e1e;
+      color: #f87171;
+      display: block;
+    }
+    .stats {
+      margin-top: 14px;
+      padding: 12px;
+      background: #16213e;
+      border-radius: 8px;
+      font-size: 12px;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .stats-row:last-child { margin-bottom: 0; }
+    .stats-value {
+      color: #e94560;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚫 Word Blocker</h1>
+  <p class="subtitle">Block pages containing specific words</p>
+
+  <div class="toggle-group">
+    <span class="toggle-label">Extension Enabled</span>
+    <label class="toggle-switch">
+      <input type="checkbox" id="enabledToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="input-group">
+    <label>Blacklisted Words (one per line)</label>
+    <textarea id="blacklist" placeholder="Enter words to block...
+Example:
+spam
+scam
+malware"></textarea>
+    <p class="hint">Case-insensitive matching. Each line is one word/phrase.</p>
+  </div>
+
+  <button class="btn" id="saveBtn">💾 Save Blacklist</button>
+  <button class="btn btn-secondary" id="clearBtn">🗑️ Clear All</button>
+
+  <div class="status" id="status"></div>
+
+  <div class="stats">
+    <div class="stats-row">
+      <span>Words in blacklist:</span>
+      <span class="stats-value" id="wordCount">0</span>
+    </div>
+    <div class="stats-row">
+      <span>Pages blocked:</span>
+      <span class="stats-value" id="blockedCount">0</span>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
